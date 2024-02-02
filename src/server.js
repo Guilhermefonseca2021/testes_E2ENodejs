@@ -1,18 +1,34 @@
 import { createServer } from "http";
-const Database = new Map()
+import { once } from "events";
+import { randomUUID } from "crypto";
 
-async function handler(req, res) {
+const Database = new Map();
+
+function respondJSON(data, res) {
+  return res(JSON.stringify(data));
+}
+
+async function handler(req, res)  {
   const { method } = req;
 
   if (method === "GET") {
-    return;
-  }
+    return respondJSON([...Database.values()], response);
+  } 
+
   if (method === "POST") {
-    return;
+    const body = JSON.parse(await once(request, "data"));
+    const id = randomUUID()
+    Database.set(id, body)
+    console.log("recebido", body);
+    return respondJSON({ 
+      ok: 1 
+    }, response);
   }
+
   if (method === "DELETE") {
     return;
   }
+
   if (method === "PUT") {
     return;
   }
